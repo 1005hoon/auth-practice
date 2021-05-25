@@ -1,11 +1,13 @@
+const cors = require("cors");
 const express = require("express");
 const http = require("http");
 const morgan = require("morgan");
 const router = require("./router");
 const dotenv = require("dotenv").config();
 require("./config/db")();
-const app = express();
 
+const app = express();
+app.use(cors());
 app.use(express.json());
 app.use(morgan("dev"));
 
