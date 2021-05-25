@@ -1,4 +1,5 @@
 const User = require("../models/User");
+const jwt = require("jsonwebtoken");
 
 exports.signup = async (req, res, next) => {
   // Check if email exists
@@ -24,11 +25,22 @@ exports.signup = async (req, res, next) => {
 
   // if user doesn't exist, create and save user record
   const user = new User({ email, password });
+  const token = generateToken(user);
   await user.save();
 
   // respond to request indicating the user was created
   res.status(201).json({
     success: true,
-    data: user,
+    data: token,
   });
+};
+
+exports.signin = async (req, res, next) => {
+  const user = req.user;
+  res.status(200).json({ success: true, data: user });
+};
+
+const generateToken = (user) => {
+  const timestamp = new Date().getTime();
+  return jwt.sign({ sub: user.id, iat: timestamp }, process.env.JWT_SECRET);
 };

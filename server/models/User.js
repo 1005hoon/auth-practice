@@ -12,11 +12,21 @@ userSchema.pre("save", async function (next) {
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(user.password, salt);
     user.password = hash;
+    user.salt = salt;
     next();
   } catch (error) {
     next(error);
   }
 });
+
+userSchema.methods.verifyPassword = async function (password) {
+  try {
+    return await bcrypt.compare(password, this.password);
+  } catch (error) {
+    return error;
+  }
+};
+
 const model = mongoose.model("User", userSchema);
 
 module.exports = model;
