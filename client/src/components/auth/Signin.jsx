@@ -2,15 +2,16 @@ import React from "react";
 import { connect } from "react-redux";
 import { useHistory } from "react-router";
 import { compose } from "redux";
-import { reduxForm, Field } from "redux-form";
+import { Field, reduxForm } from "redux-form";
+
 import * as actions from "../../actions";
 
-const SignUp = (props) => {
+const Signin = (props) => {
   const history = useHistory();
-  const { handleSubmit, signUp, errorMessage } = props;
+  const { handleSubmit, signIn, errorMessage } = props;
 
   const onSubmit = (formData) => {
-    signUp(formData, () => history.push("/"));
+    signIn(formData, () => history.push("/"));
   };
 
   return (
@@ -45,5 +46,5 @@ const mapStateToProps = (state) => {
 
 export default compose(
   connect(mapStateToProps, actions),
-  reduxForm({ form: "signup" })
-)(SignUp);
+  reduxForm({ form: "signin" })
+)(Signin);
