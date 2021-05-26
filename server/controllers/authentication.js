@@ -31,13 +31,13 @@ exports.signup = async (req, res, next) => {
   // respond to request indicating the user was created
   res.status(201).json({
     success: true,
-    data: token,
+    token,
   });
 };
 
 exports.signin = async (req, res, next) => {
   const user = req.user;
-  res.status(200).json({ success: true, data: user });
+  res.status(200).json({ success: true, token: generateToken(user) });
 };
 
 const generateToken = (user) => {
